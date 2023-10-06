@@ -1,0 +1,174 @@
+if game.PlaceId == 12742233841 then
+
+    local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+    local Window = OrionLib:MakeWindow({Name = "BaconBoss UPD Hub | Every Second You Get +1 WalkSpeed ", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+    
+    getgenv().tpPlace = "string"
+    getgenv().autotp = false
+    getgenv().rb = true
+    getgenv().spin = true
+    getgenv().bspin = true
+    
+    function Teleport(teleportPlace)
+        local player = game.Players.LocalPlayer
+        player.Character.HumanoidRootPart.CFrame = teleportPlace
+    end
+    
+    function autotp()
+        while getgenv().autotp == true do
+            Teleport(game:GetService("Workspace").Wins.CandyStage.CFrame) -- Teleporta al lugar de ganancia de Candy
+            wait(0.1)
+            local speed = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed
+            if speed < 200 then
+                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed + 1 -- Aumenta la velocidad de caminar
+            end
+        end
+    end
+    
+    function rb()
+        while getgenv().rb == true do
+            game:GetService("ReplicatedStorage").RebirthEvent:FireServer()
+            wait(0.1)
+        end
+    end
+    
+    function spin()
+        while getgenv().spin == true do
+            game:GetService("ReplicatedStorage").SpinRemote:InvokeServer()
+            wait(0.1)
+        end
+    end
+    
+    function bspin()
+        while getgenv().bspin == true do
+            game:GetService("ReplicatedStorage").SpinnerUpdate:FireServer("BuySpin")
+            wait(0.1)
+        end
+    end
+
+    function playOofSound()
+        game:GetService("Players").LocalPlayer.PlayerScripts.ChatScript:ChatRemote("localplayer", "oof", "all")
+    end
+
+    function viewPlayers()
+        for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
+            print(player.Name)
+        end
+    end
+
+    function danceEmote()
+        game:GetService("Players").LocalPlayer:Kick("/e dance")
+    end
+    
+    local TpTab = Window:MakeTab({
+        Name = "Auto Farm",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+    
+    local otherTab = Window:MakeTab({
+        Name = "Other",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+    
+    TpTab:AddLabel("Note: Work Very Well With Tall Avatars")
+    
+    TpTab:AddDropdown({
+        Name = "Select",
+        Default = "1 Win",
+        Options = {"1 Win", "2 Win", "3 Win", "4 Win", "5 Win", "6 Win", "7 Win", "8 Win", "9 Win", "10 Win", "11 Win (Forest)", "12 Win (Heaven)", "13 Win (Candy)"}, -- Añade el nuevo mundo "13 Win (Candy)"
+        Callback = function(Value)
+            getgenv().tpPlace = Value
+        end    
+    })
+
+    TpTab:AddToggle({
+        Name = "Auto Best Win",
+        Default = false,
+        Callback = function(Value)
+            getgenv().autotp = Value
+            if Value then
+                Teleport(game:GetService("Workspace").Wins.CandyStage.CFrame) -- Teleporta al lugar de ganancia de Candy al activar Auto Best Win
+                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16 -- Restablece la velocidad de caminar a 16 al iniciar la teletransportación
+            end
+            autotp()
+        end    
+    })
+    
+    otherTab:AddToggle({
+        Name = "Auto Spin",
+        Default = false,
+        Callback = function(Value)
+            getgenv().spin = Value
+            spin()
+        end    
+    })
+    
+    otherTab:AddToggle({
+        Name = "Auto Buy Spin",
+        Default = false,
+        Callback = function(Value)
+            getgenv().bspin = Value
+            bspin()
+        end    
+    })
+    
+    otherTab:AddToggle({
+        Name = "Auto Rebirth",
+        Default = false,
+        Callback = function(Value)
+            getgenv().rb = Value
+            rb()
+        end    
+    })
+
+    otherTab:AddButton({
+        Name = "Play Oof Sound",
+        Callback = playOofSound
+    })
+
+    otherTab:AddButton({
+        Name = "View Players",
+        Callback = viewPlayers
+    })
+
+    otherTab:AddButton({
+        Name = "Dance Emote (/e dance)",
+        Callback = danceEmote
+    })
+    
+    TpTab:AddButton({
+        Name = "Win",
+        Callback = function()
+            if getgenv().tpPlace == "1 Win" then
+                Teleport(game:GetService("Workspace").Wins.ConveyorStage.CFrame)
+            elseif getgenv().tpPlace == "2 Win" then
+                Teleport(game:GetService("Workspace").Wins.LaserStage.CFrame)
+            elseif getgenv().tpPlace == "3 Win" then
+                Teleport(game:GetService("Workspace").Wins.TrussStage.CFrame)
+            elseif getgenv().tpPlace == "4 Win" then
+                Teleport(game:GetService("Workspace").Wins.World4.CFrame)
+            elseif getgenv().tpPlace == "5 Win" then
+                Teleport(game:GetService("Workspace").Wins.World5.CFrame)
+            elseif getgenv().tpPlace == "6 Win" then
+                Teleport(game:GetService("Workspace").Wins.World6.CFrame)
+            elseif getgenv().tpPlace == "7 Win" then
+                Teleport(game:GetService("Workspace").Wins.Stage7.CFrame)
+            elseif getgenv().tpPlace == "8 Win" then
+                Teleport(game:GetService("Workspace").Wins.Stage8.CFrame)
+            elseif getgenv().tpPlace == "9 Win" then
+                Teleport(game:GetService("Workspace").Wins.DesertStage.CFrame)
+            elseif getgenv().tpPlace == "10 Win" then
+                Teleport(game:GetService("Workspace").Wins.SteampunkStage.CFrame)
+            elseif getgenv().tpPlace == "11 Win (Forest)" then
+                Teleport(game:GetService("Workspace").Wins.ForestStage.CFrame)
+            elseif getgenv().tpPlace == "12 Win (Heaven)" then
+                Teleport(game:GetService("Workspace").Wins.HeavenStage.CFrame)
+            elseif getgenv().tpPlace == "13 Win (Candy)" then
+                Teleport(game:GetService("Workspace").Wins.CandyStage.CFrame)
+            end    
+        end
+    }) 
+
+end
